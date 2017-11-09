@@ -7,7 +7,17 @@
 		label.error{color:red;}
 		</style>
 		<script src="js/jquery-1.12.4.js"></script>
-
+		<script>
+			function deleteRecord(id)
+			{
+				var c=confirm("Dow you want to Delete Employee "+id);
+				if(c==true)
+				{
+					window.location="delete_employee.php?did="+id;
+				}
+			}
+		
+		</script>
 	</head>
 	<body>
 		<div class="container-fluid well">
@@ -24,6 +34,12 @@
 				if(isset($_COOKIE['edit_success']))
 				{
 					echo "<p class='alert alert-success'>Record Updated...</p>";
+				}
+			?>
+			<?php
+				if(isset($_COOKIE['del_success']))
+				{
+					echo "<p class='alert alert-danger'>Record Deleted Successfully...</p>";
 				}
 			?>
 			
@@ -71,19 +87,21 @@
 								
 								<td><?php echo $row['date_of_join']?></td>
 								<td>
-									<a href="edit_employee.php?key=<?php echo $row['eid']?>"><i class="fa fa-pencil">Edit</i></a><br><br>
-									<a href="delete_employee.php?key=<?php echo $row['eid'];?>" class="text-danger"><i class="fa fa-trash">Delete</i></a><br><br>
+									<a href="edit_employee.php?key=<?php echo $row['eid']?>" class="btn btn-primary"><i class="fa fa-pencil">Edit</i></a><br><br>
+									<a href="javascript:void(0)" onclick="deleteRecord('<?php echo $row['eid'] ?>')" class="text-danger btn btn-danger">
+										<i class="fa fa-trash">Delete</i>
+									</a><br><br>
 									<?php
 										if($row['status']=="Active")
 										{
 											?>
-												<a title="Active" href="status_employee.php?key=<?php echo $row['eid'];?>" class="text-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
+												<a title="Active" href="status_employee.php?key=<?php echo $row['eid'];?>" class="text-success btn btn-success"><i class="fa fa-eye" aria-hidden="true">Active</i></a>
 											<?php
 										}
 										else
 										{
 											?>
-											<a title="In Active" href="status_employee.php?key=<?php echo $row['eid'];?>" class="text-danger"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+											<a title="In Active" href="status_employee.php?key=<?php echo $row['eid'];?>" class="text-danger btn-default btn"><i class="fa fa-eye-slash" aria-hidden="true">InActive</i></a>
 											<?php
 										}
 									?>
